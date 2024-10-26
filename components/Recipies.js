@@ -7,6 +7,7 @@ import {
 import MasonryList from "@react-native-seoul/masonry-list";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { mealData } from './data';
+import Loading from './Loading';
 const Recipies = ({ categories, meals }) => {
   return (
     <View className="mx-4 space-y-3">
@@ -17,7 +18,7 @@ const Recipies = ({ categories, meals }) => {
         Recipies
       </Text>
       <View>
-        {categories.length == 0 || meals.length==0 ? null : (
+        {categories.length == 0 || meals.length==0 ? (<Loading size="large" className="mt-20"/>) : (
           <MasonryList
             data={meals}
             keyExtractor={(item) => item.idMeal}
