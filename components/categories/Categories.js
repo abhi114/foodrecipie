@@ -6,6 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Animated, { FadeIn, FadeInDown, FadeOut } from "react-native-reanimated";
+import CachedImage from '../helpers/Image';
 const Categories = ({ categories, activeCategory, handleChangeCategory }) => {
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
@@ -25,8 +26,13 @@ const Categories = ({ categories, activeCategory, handleChangeCategory }) => {
               onPress={() => handleChangeCategory(cat.strCategory)}
             >
               <View className={"rounded-full p-[6px]" + activeClassButton}>
-                <Image
+                {/* <Image
                   source={{ uri: cat.strCategoryThumb }}
+                  style={{ width: hp(6), height: hp(6) }}
+                  className="rounded-full"
+                /> */}
+                <CachedImage
+                   uri= {cat.strCategoryThumb} 
                   style={{ width: hp(6), height: hp(6) }}
                   className="rounded-full"
                 />

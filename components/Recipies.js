@@ -8,6 +8,7 @@ import MasonryList from "@react-native-seoul/masonry-list";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { mealData } from './data';
 import Loading from './Loading';
+import CachedImage from './helpers/Image';
 const Recipies = ({ categories, meals }) => {
   return (
     <View className="mx-4 space-y-3">
@@ -53,8 +54,18 @@ const RecipieCard = ({item,index})=>{
           }}
           className="flex justify-center mb-4 space-y-1"
         >
-          <Image
+          {/* <Image
             source={{ uri: item.strMealThumb }}
+            style={{
+              width: "100%",
+              height: index % 3 == 0 ? hp(25) : hp(35),
+              borderRadius: 35,
+            }}
+            className="bg-black/5"
+            resizeMode="cover"
+          /> */}
+          <CachedImage
+             uri={item.strMealThumb}
             style={{
               width: "100%",
               height: index % 3 == 0 ? hp(25) : hp(35),
