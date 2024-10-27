@@ -57,7 +57,7 @@ const RecipieCard = ({ item, index, navigation }) => {
         }}
         className="flex justify-center mb-4 space-y-1"
         onPress={() => {
-          navigation.navigate("RecipieDetail",{...item});
+          navigation.navigate("RecipieDetail", { ...item });
         }}
       >
         {/* <Image
@@ -70,16 +70,19 @@ const RecipieCard = ({ item, index, navigation }) => {
             className="bg-black/5"
             resizeMode="cover"
           /> */}
-        <CachedImage
-          uri={item.strMealThumb}
-          style={{
-            width: "100%",
-            height: index % 3 == 0 ? hp(25) : hp(35),
-            borderRadius: 35,
-          }}
-          className="bg-black/5"
-          resizeMode="cover"
-        />
+        <Animated.View sharedTransitionTag="1">
+          <CachedImage
+            uri={item.strMealThumb}
+            style={{
+              width: "100%",
+              height: index % 3 == 0 ? hp(25) : hp(35),
+              borderRadius: 35,
+            }}
+            className="bg-black/5"
+            resizeMode="cover"
+            sharedTransitionTag={"1"}
+          />
+        </Animated.View>
         <Text
           style={{ fontSize: hp(1.5) }}
           className="font-semibold ml-2 text-neutral-600"

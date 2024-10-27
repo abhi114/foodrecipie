@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Loading from '../Loading';
 import YoutubeIframe from 'react-native-youtube-iframe';
+import Animated from 'react-native-reanimated';
 const RecipieDetails = (props) => {
     let item = props.route.params;
     const [isFav,setisfav] = useState(false);
@@ -64,220 +65,190 @@ const RecipieDetails = (props) => {
     }
   return (
     <ScrollView
-      className="bg-white flex-1"
+      className="flex-1 bg-white"
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 30 }}
+      contentContainerStyle={{ paddingBottom: hp(8) }}
     >
       <StatusBar style="light" />
-      <View className="flex-row justify-center">
-        <CachedImage
-          uri={item.strMealThumb}
-          style={{
-            width: wp(98),
-            height: hp(50),
-            borderRadius: 53,
-            borderBottomLeftRadius: 40,
-            borderBottomRightRadius: 40,
-            marginTop: 4,
-          }}
-        />
-      </View>
-      {/* back button */}
-      <View className="w-full absolute flex-row justify-between items-center pt-14">
-        <TouchableOpacity
-          className="p-2 rounded-full ml-5 bg-white items-center justify-center"
-          onPress={() => navigation.goBack()}
-        >
-          <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color={"#fbbf24"} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="p-2 rounded-full mr-5 bg-white items-center justify-center"
-          onPress={() => setisfav(!isFav)}
-        >
-          <HeartIcon
-            size={hp(3.5)}
-            strokeWidth={4.5}
-            color={isFav ? "red" : "gray"}
-          />
-        </TouchableOpacity>
-      </View>
-      {/* meal description */}
-      {loading ? (
-        <Loading size="large" className="mt-16" />
-      ) : (
-        <View className="px-4 flex justify-between space-y-4 pt-8">
-          <View className="space-y-2">
-            <Text
-              style={{ fontSize: hp(3) }}
-              className="font-bold flex-1 text-neutral-700"
-            >
-              {meal?.strMeal}
-            </Text>
-            <Text
-              style={{ fontSize: hp(2) }}
-              className="font-medium flex-1 text-neutral-500"
-            >
-              {meal?.strArea}
-            </Text>
-          </View>
-          {/* misc */}
-          <View className="flex-row justify-around">
-            <View className="flex rounded-full bg-amber-300 p-2">
-              <View
-                style={{ height: hp(6.5), width: hp(6.5) }}
-                className="bg-white rounded-full flex items-center justify-center"
-              >
-                <ClockIcon size={hp(4)} strokeWidth={2.5} color={"#525252"} />
-              </View>
-              <View className="flex items-center py-2 space-y-1">
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(2) }}
-                >
-                  35
-                </Text>
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(1.5) }}
-                >
-                  min
-                </Text>
-              </View>
-            </View>
-            <View className="flex rounded-full bg-amber-300 p-2">
-              <View
-                style={{ height: hp(6.5), width: hp(6.5) }}
-                className="bg-white rounded-full flex items-center justify-center"
-              >
-                <UsersIcon size={hp(4)} strokeWidth={2.5} color={"#525252"} />
-              </View>
-              <View className="flex items-center py-2 space-y-1">
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(2) }}
-                >
-                  03
-                </Text>
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(1.5) }}
-                >
-                  Servings
-                </Text>
-              </View>
-            </View>
-            <View className="flex rounded-full bg-amber-300 p-2">
-              <View
-                style={{ height: hp(6.5), width: hp(6.5) }}
-                className="bg-white rounded-full flex items-center justify-center"
-              >
-                <FireIcon size={hp(4)} strokeWidth={2.5} color={"#525252"} />
-              </View>
-              <View className="flex items-center py-2 space-y-1">
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(2) }}
-                >
-                  103
-                </Text>
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(1.5) }}
-                >
-                  Cal
-                </Text>
-              </View>
-            </View>
-            <View className="flex rounded-full bg-amber-300 p-2">
-              <View
-                style={{ height: hp(6.5), width: hp(6.5) }}
-                className="bg-white rounded-full flex items-center justify-center"
-              >
-                <Square3Stack3DIcon
-                  size={hp(4)}
-                  strokeWidth={2.5}
-                  color={"#525252"}
-                />
-              </View>
-              <View className="flex items-center py-2 space-y-1">
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(2) }}
-                ></Text>
-                <Text
-                  className="font-bold text-neutral-700"
-                  style={{ fontSize: hp(1.5) }}
-                >
-                  Easy
-                </Text>
-              </View>
-            </View>
-          </View>
-          {/* ingredients */}
-          <View className="space-y-4">
-            <Text
-              style={{ fontSize: hp(2.5) }}
-              className="font-bold flex-1 text-neutral-700"
-            >
-              Ingridients
-            </Text>
-            <View className="space-y-2 ml-3">
-              {IngridientsIndexes(meal).map((i) => {
-                return (
-                  <View key={i} className="flex-row space-x-4">
-                    {/* dots */}
-                    <View
-                      style={{ height: hp(1.5), width: hp(1.5) }}
-                      className="bg-amber-300 rounded-full "
-                    />
 
-                    <View
-                      style={{ fontSize: hp(1.7) }}
-                      className="flex-row space-x-2"
+      {/* Hero Image Section */}
+      <View className="relative">
+        <Animated.View className="w-full" sharedTransitionTag="1">
+          <CachedImage
+            uri={item.strMealThumb}
+            style={{
+              width: wp(100),
+              height: hp(45),
+            }}
+            className="bg-black/5"
+          />
+          {/* Gradient Overlay */}
+          <View className="absolute inset-0 bg-black/20" />
+        </Animated.View>
+
+        {/* Navigation Buttons */}
+        <View className="w-full absolute flex-row justify-between items-center pt-14 px-4">
+          <TouchableOpacity
+            className="p-3 rounded-full bg-white/90 shadow-lg"
+            onPress={() => navigation.goBack()}
+          >
+            <ChevronLeftIcon size={hp(3)} strokeWidth={3} color="#fbbf24" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="p-3 rounded-full bg-white/90 shadow-lg"
+            onPress={() => setisfav(!isFav)}
+          >
+            <HeartIcon
+              size={hp(3)}
+              strokeWidth={3}
+              color={isFav ? "#ef4444" : "#6b7280"}
+              fill={isFav ? "#ef4444" : "#808080"}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Content Container */}
+      <View className="px-4 pt-8 -mt-14 bg-white rounded-t-[30px]">
+        {loading ? (
+          <Loading size="large" className="mt-16" />
+        ) : (
+          <View className="space-y-6">
+            {/* Title Section */}
+            <View className="space-y-2">
+              <Text
+                className="font-bold text-neutral-800"
+                style={{ fontSize: hp(3) }}
+              >
+                {meal?.strMeal}
+              </Text>
+              <Text
+                className="font-medium text-amber-600"
+                style={{ fontSize: hp(2) }}
+              >
+                {meal?.strArea} Cuisine
+              </Text>
+            </View>
+
+            {/* Stats Cards */}
+            <View className="flex-row justify-between">
+              {[
+                { icon: ClockIcon, value: "35", unit: "min" },
+                { icon: UsersIcon, value: "03", unit: "Servings" },
+                { icon: FireIcon, value: "103", unit: "Cal" },
+                { icon: Square3Stack3DIcon, value: "", unit: "Easy" },
+              ].map((stat, index) => (
+                <View key={index} className="bg-amber-50 rounded-3xl p-2">
+                  <View
+                    style={{ height: hp(6.5), width: hp(6.5) }}
+                    className="bg-white rounded-full items-center justify-center mb-1"
+                  >
+                    <stat.icon size={hp(3.5)} strokeWidth={2} color="#f59e0b" />
+                  </View>
+                  <View className="items-center space-y-1">
+                    <Text
+                      className="font-bold text-neutral-700"
+                      style={{ fontSize: hp(2) }}
                     >
-                      <Text className="font-extrabold text-neutral-700">
-                        {meal[`strMeasure` + i]}
+                      {stat.value}
+                    </Text>
+                    <Text
+                      className="font-medium text-neutral-600"
+                      style={{ fontSize: hp(1.5) }}
+                    >
+                      {stat.unit}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            {/* Ingredients Section */}
+            <View className="space-y-4">
+              <Text
+                className="font-bold text-neutral-800"
+                style={{ fontSize: hp(2.5) }}
+              >
+                Ingredients
+              </Text>
+              <View className="space-y-3">
+                {IngridientsIndexes(meal).map((i) => (
+                  <View
+                    key={i}
+                    className="flex-row items-center space-x-4 bg-amber-50/50 p-3 rounded-xl"
+                  >
+                    <View className="h-2 w-2 rounded-full bg-amber-400" />
+                    <View className="flex-row space-x-2 flex-1">
+                      <Text
+                        className="font-bold text-neutral-800"
+                        style={{ fontSize: hp(1.7) }}
+                      >
+                        {meal[`strMeasure${i}`]}
                       </Text>
                       <Text
+                        className="text-neutral-700"
                         style={{ fontSize: hp(1.7) }}
-                        className="font-medium text-neutral-600"
                       >
-                        {meal[`strIngredient` + i]}
+                        {meal[`strIngredient${i}`]}
                       </Text>
                     </View>
                   </View>
-                );
-              })}
+                ))}
+              </View>
             </View>
-          </View>
-          {/* instructions */}
-          <View className="space-y-4">
-            <Text
-              style={{ fontSize: hp(2.5) }}
-              className="font-bold flex-1 text-neutral-700"
-            >
-              Instructions
-            </Text>
-            <Text style={{ fontSize: hp(1.8) }} className="text-neutral-700">
-              {meal?.strInstructions}
-            </Text>
-          </View>
-          {/* recipie video */}
-          {meal?.strYoutube && (
+
+            {/* Instructions Section */}
             <View className="space-y-4">
               <Text
+                className="font-bold text-neutral-800"
                 style={{ fontSize: hp(2.5) }}
-                className="font-bold flex-1 text-neutral-700"
               >
-                Recipie Video
+                Instructions
               </Text>
-                <View>
-                    <YoutubeIframe videoId={getYoutubeVideoId(meal.strYoutube)} height={hp(30)}/>
-                </View>
+              <View className="space-y-4">
+                {meal?.strInstructions
+                  ?.split(".")
+                  .filter(Boolean)
+                  .map((instruction, index) => (
+                    <View key={index} className="flex-row space-x-4">
+                      <View className="h-8 w-8 rounded-full bg-amber-100 items-center justify-center">
+                        <Text className="font-bold text-amber-800">
+                          {index + 1}
+                        </Text>
+                      </View>
+                      <View className="flex-1">
+                        <Text
+                          className="text-neutral-700"
+                          style={{ fontSize: hp(1.8) }}
+                        >
+                          {instruction.trim()}.
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+              </View>
             </View>
-          )}
-        </View>
-      )}
+
+            {/* Recipe Video Section */}
+            {meal?.strYoutube && (
+              <View className="space-y-4">
+                <Text
+                  className="font-bold text-neutral-800"
+                  style={{ fontSize: hp(2.5) }}
+                >
+                  Recipe Video
+                </Text>
+                <View className="rounded-2xl overflow-hidden bg-neutral-100">
+                  <YoutubeIframe
+                    videoId={getYoutubeVideoId(meal.strYoutube)}
+                    height={hp(30)}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }
