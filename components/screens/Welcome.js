@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableWithoutFeedback } from 'react-native'
 import React, { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import {
@@ -31,24 +31,42 @@ const Welcome = () => {
     }, [])
     
   return (
-    <View className="flex-1 justify-center items-center space-y-2 bg-amber-500">
-      <StatusBar style="light" />
-      {/* logo image with rings */}
-      <Animated.View className="bg-white/20 rounded-full " style={{padding:ring2padding}}>
-        <Animated.View className="bg-white/20 rounded-full " style={{padding:ring1padding}}>
-          <Image
-            source={require("../../assets/welcome2.png")}
-            style={{ width: hp(25), height: hp(25) }}
-          />
+    <TouchableWithoutFeedback onPress={() => navigation.navigate("Home")}>
+      <View className="flex-1 justify-center items-center space-y-2 bg-amber-500">
+        <StatusBar style="light" />
+
+        {/* Logo image with rings */}
+        <Animated.View
+          className="bg-white/20 rounded-full "
+          style={{ padding: ring2padding }}
+        >
+          <Animated.View
+            className="bg-white/20 rounded-full "
+            style={{ padding: ring1padding }}
+          >
+            <Image
+              source={require("../../assets/welcome2.png")}
+              style={{ width: hp(25), height: hp(25) }}
+            />
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
-      <View className="flex items-center space-y-3">
-        <Text className="font-bold text-white tracking-widest" style={{fontSize:hp(7)}}>Foody</Text>
-        <Text className="font-medium text-white tracking-widest" style={{fontSize:hp(2)}}>
-          Food Is Always Right
-        </Text>
+
+        <View className="flex items-center space-y-3">
+          <Text
+            className="font-bold text-white tracking-widest"
+            style={{ fontSize: hp(7) }}
+          >
+            Foody
+          </Text>
+          <Text
+            className="font-medium text-white tracking-widest"
+            style={{ fontSize: hp(2) }}
+          >
+            Food Is Always Right
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
