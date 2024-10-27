@@ -1,11 +1,40 @@
-import { View, Text, ScrollView, Image, TextInput } from 'react-native'
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {BellIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outline';
+import {
+  BellIcon,
+  MagnifyingGlassIcon,
+  HeartIcon,
+  HomeIcon,
+  UserIcon,
+  Bars3Icon,
+  BookmarkIcon,
+  CogIcon,
+  QuestionMarkCircleIcon,
+  ArrowRightOnRectangleIcon,
+} from "react-native-heroicons/outline";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+  interpolate,
+} from "react-native-reanimated";
 import Categories from './categories/Categories';
 import axios from 'axios';
 import Recipies from './Recipies';

@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Loading from '../Loading';
 import YoutubeIframe from 'react-native-youtube-iframe';
-import Animated from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 const RecipieDetails = (props) => {
     let item = props.route.params;
     const [isFav,setisfav] = useState(false);
@@ -87,7 +87,10 @@ const RecipieDetails = (props) => {
         </Animated.View>
 
         {/* Navigation Buttons */}
-        <View className="w-full absolute flex-row justify-between items-center pt-14 px-4">
+        <Animated.View
+          entering={FadeIn.delay(200).duration(1000)}
+          className="w-full absolute flex-row justify-between items-center pt-14 px-4"
+        >
           <TouchableOpacity
             className="p-3 rounded-full bg-white/90 shadow-lg"
             onPress={() => navigation.goBack()}
@@ -105,7 +108,7 @@ const RecipieDetails = (props) => {
               fill={isFav ? "#ef4444" : "#808080"}
             />
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </View>
 
       {/* Content Container */}
@@ -115,23 +118,34 @@ const RecipieDetails = (props) => {
         ) : (
           <View className="space-y-6">
             {/* Title Section */}
-            <View className="space-y-2">
-              <Text
-                className="font-bold text-neutral-800"
-                style={{ fontSize: hp(3) }}
+            {meal?.strMeal != null && (
+              <Animated.View
+                entering={FadeInDown.duration(700).springify().damping(12)}
+                className="space-y-2"
               >
-                {meal?.strMeal}
-              </Text>
-              <Text
-                className="font-medium text-amber-600"
-                style={{ fontSize: hp(2) }}
-              >
-                {meal?.strArea} Cuisine
-              </Text>
-            </View>
+                <Text
+                  className="font-bold text-neutral-800"
+                  style={{ fontSize: hp(3) }}
+                >
+                  {meal?.strMeal}
+                </Text>
+                <Text
+                  className="font-medium text-amber-600"
+                  style={{ fontSize: hp(2) }}
+                >
+                  {meal?.strArea} Cuisine
+                </Text>
+              </Animated.View>
+            )}
 
             {/* Stats Cards */}
-            <View className="flex-row justify-between">
+            <Animated.View
+              entering={FadeInDown.delay(100)
+                .duration(700)
+                .springify()
+                .damping(12)}
+              className="flex-row justify-between"
+            >
               {[
                 { icon: ClockIcon, value: "35", unit: "min" },
                 { icon: UsersIcon, value: "03", unit: "Servings" },
@@ -161,77 +175,98 @@ const RecipieDetails = (props) => {
                   </View>
                 </View>
               ))}
-            </View>
+            </Animated.View>
 
             {/* Ingredients Section */}
-            <View className="space-y-4">
-              <Text
-                className="font-bold text-neutral-800"
-                style={{ fontSize: hp(2.5) }}
+            {IngridientsIndexes(meal).length > 0 && (
+              <Animated.View
+                entering={FadeInDown.delay(200)
+                  .duration(700)
+                  .springify()
+                  .damping(12)}
+                className="space-y-4"
               >
-                Ingredients
-              </Text>
-              <View className="space-y-3">
-                {IngridientsIndexes(meal).map((i) => (
-                  <View
-                    key={i}
-                    className="flex-row items-center space-x-4 bg-amber-50/50 p-3 rounded-xl"
-                  >
-                    <View className="h-2 w-2 rounded-full bg-amber-400" />
-                    <View className="flex-row space-x-2 flex-1">
-                      <Text
-                        className="font-bold text-neutral-800"
-                        style={{ fontSize: hp(1.7) }}
-                      >
-                        {meal[`strMeasure${i}`]}
-                      </Text>
-                      <Text
-                        className="text-neutral-700"
-                        style={{ fontSize: hp(1.7) }}
-                      >
-                        {meal[`strIngredient${i}`]}
-                      </Text>
-                    </View>
-                  </View>
-                ))}
-              </View>
-            </View>
-
-            {/* Instructions Section */}
-            <View className="space-y-4">
-              <Text
-                className="font-bold text-neutral-800"
-                style={{ fontSize: hp(2.5) }}
-              >
-                Instructions
-              </Text>
-              <View className="space-y-4">
-                {meal?.strInstructions
-                  ?.split(".")
-                  .filter(Boolean)
-                  .map((instruction, index) => (
-                    <View key={index} className="flex-row space-x-4">
-                      <View className="h-8 w-8 rounded-full bg-amber-100 items-center justify-center">
-                        <Text className="font-bold text-amber-800">
-                          {index + 1}
+                <Text
+                  className="font-bold text-neutral-800"
+                  style={{ fontSize: hp(2.5) }}
+                >
+                  Ingredients
+                </Text>
+                <View className="space-y-3">
+                  {IngridientsIndexes(meal).map((i) => (
+                    <View
+                      key={i}
+                      className="flex-row items-center space-x-4 bg-amber-50/50 p-3 rounded-xl"
+                    >
+                      <View className="h-2 w-2 rounded-full bg-amber-400" />
+                      <View className="flex-row space-x-2 flex-1">
+                        <Text
+                          className="font-bold text-neutral-800"
+                          style={{ fontSize: hp(1.7) }}
+                        >
+                          {meal[`strMeasure${i}`]}
                         </Text>
-                      </View>
-                      <View className="flex-1">
                         <Text
                           className="text-neutral-700"
-                          style={{ fontSize: hp(1.8) }}
+                          style={{ fontSize: hp(1.7) }}
                         >
-                          {instruction.trim()}.
+                          {meal[`strIngredient${i}`]}
                         </Text>
                       </View>
                     </View>
                   ))}
-              </View>
-            </View>
+                </View>
+              </Animated.View>
+            )}
 
+            {/* Instructions Section */}
+            {meal?.strInstructions && (
+              <Animated.View
+                entering={FadeInDown.delay(300)
+                  .duration(700)
+                  .springify()
+                  .damping(12)}
+                className="space-y-4"
+              >
+                <Text
+                  className="font-bold text-neutral-800"
+                  style={{ fontSize: hp(2.5) }}
+                >
+                  Instructions
+                </Text>
+                <View className="space-y-4">
+                  {meal?.strInstructions
+                    ?.split(".")
+                    .filter(Boolean)
+                    .map((instruction, index) => (
+                      <View key={index} className="flex-row space-x-4">
+                        <View className="h-8 w-8 rounded-full bg-amber-100 items-center justify-center">
+                          <Text className="font-bold text-amber-800">
+                            {index + 1}
+                          </Text>
+                        </View>
+                        <View className="flex-1">
+                          <Text
+                            className="text-neutral-700"
+                            style={{ fontSize: hp(1.8) }}
+                          >
+                            {instruction.trim()}.
+                          </Text>
+                        </View>
+                      </View>
+                    ))}
+                </View>
+              </Animated.View>
+            )}
             {/* Recipe Video Section */}
             {meal?.strYoutube && (
-              <View className="space-y-4">
+              <Animated.View
+                entering={FadeInDown.delay(400)
+                  .duration(700)
+                  .springify()
+                  .damping(12)}
+                className="space-y-4"
+              >
                 <Text
                   className="font-bold text-neutral-800"
                   style={{ fontSize: hp(2.5) }}
@@ -244,7 +279,7 @@ const RecipieDetails = (props) => {
                     height={hp(30)}
                   />
                 </View>
-              </View>
+              </Animated.View>
             )}
           </View>
         )}
