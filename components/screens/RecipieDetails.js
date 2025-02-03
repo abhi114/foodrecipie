@@ -20,7 +20,7 @@ const RecipieDetails = (props) => {
     const [meal,setMeal] = useState(null);
     const [loading,setLoading] = useState(true);
     useEffect(() => {
-        console.log(item)
+        //console.log(item)
        getMealData(item.idMeal)
         setLoading(false);
       return () => {
@@ -30,11 +30,11 @@ const RecipieDetails = (props) => {
     
     const getMealData = async (id) => {
       try {
-        console.log("id is" + id);
+        //console.log("id is" + id);
         const response = await axios.get(
           `https://themealdb.com/api/json/v1/1/lookup.php?i=${id}`
         );
-        console.log('got recipies' + JSON.stringify(response.data.meals[0]));
+        //console.log('got recipies' + JSON.stringify(response.data.meals[0]));
         if (response && response.data) {
           setMeal(response.data.meals[0]);
         }
@@ -46,7 +46,7 @@ const RecipieDetails = (props) => {
          const regex = /v=([^&]+)/;
          const match = url.match(regex);
          if (match && match[1]) {
-            console.log(match[1]);
+            //console.log(match[1]);
            return match[1];
          }
          return null;

@@ -4,24 +4,30 @@
     "slug": "foodrecipie",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/foodRe.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/foodRe.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/foodRe.jpg",
+        "backgroundColor": "#000"
+      },
+      "package": "com.abhi531.Weatherly"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/foodRe.jpg"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "298f33d6-efbc-4977-b233-285a8d6d3057"
+      }
     }
   }
 }

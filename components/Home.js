@@ -50,7 +50,12 @@ const Home = () => {
   // Animation values
   const drawerAnimation = useSharedValue(0);
   const mainContentAnimation = useSharedValue(0);
-
+   const filteredMeals =
+     searchQuery.trim().length > 0
+       ? meals.filter((meal) =>
+           meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase())
+         )
+       : meals;
   useEffect(() => {
     getCategories();
     getRecipies();
@@ -82,6 +87,7 @@ const Home = () => {
         `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
       );
       if (response && response.data) {
+        //console.log("response.data.meals" + JSON.stringify(response.data.meals));
         setMeals(response.data.meals);
       }
     } catch (error) {
@@ -156,7 +162,10 @@ const Home = () => {
       </View>
 
       <ScrollView className="flex-1">
-        <TouchableOpacity className="flex-row items-center py-4" onPress={()=>toggleDrawer()}>
+        <TouchableOpacity
+          className="flex-row items-center py-4"
+          onPress={() => toggleDrawer()}
+        >
           <HomeIcon size={24} color="white" />
           <Text className="text-white ml-4 text-lg">Home</Text>
         </TouchableOpacity>
@@ -187,6 +196,12 @@ const Home = () => {
           <ArrowRightOnRectangleIcon size={24} color="white" />
           <Text className="text-white ml-4 text-lg">Logout</Text>
         </TouchableOpacity>
+        <Text
+          className="text-gray-200 flex-row items-center py-4 text-sm"
+          style={{ fontSize: hp(1.3) }}
+        >
+          Developed By - <Text className="text-yellow-500">Abhishek Nigam</Text>
+        </Text>
       </ScrollView>
     </Animated.View>
   );
@@ -274,8 +289,8 @@ const Home = () => {
               entering={FadeInUp.delay(200).duration(1000).springify()}
               className="mt-4"
             >
-              {meals?.length > 0 && (
-                <Recipies meals={meals} categories={categories} />
+              {filteredMeals?.length > 0 && (
+                <Recipies meals={filteredMeals} categories={categories} />
               )}
             </Animated.View>
           </ScrollView>

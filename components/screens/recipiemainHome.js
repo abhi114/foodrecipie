@@ -71,6 +71,7 @@ const Home = () => {
       );
       //console.log('got recipies' + JSON.stringify(response.data));
       if (response && response.data) {
+        //console.log("response.data.meals" + response.data.meals);
         setMeals(response.data.meals);
       }
     } catch (error) {
